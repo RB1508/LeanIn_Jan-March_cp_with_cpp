@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size() == 0 or nums.size() == 1){
+            return nums.size();
+        }
+        int prev = nums[0], ctr = 0;
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i] == prev){
+                continue;
+            }
+            else{
+                if(ctr+1 < nums.size())
+                    nums[ctr+1] = nums[i];
+                prev = nums[i];
+                ctr++;
+            }
+        }
+        return ctr+1;
+    }
+};
