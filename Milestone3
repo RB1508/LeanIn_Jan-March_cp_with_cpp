@@ -1,0 +1,244 @@
+
+2. Remove Nth Node From End of List
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *tmp = head;
+        int count = 0;
+        while(tmp != NULL)
+        {
+            count++;
+            tmp = tmp->next;
+        }
+       
+        if (count == n)
+        {
+            return head->next;
+        }
+        count = count-n;
+        ListNode *prev = NULL;
+        ListNode *cur = head;
+        while(count >0)
+        {
+            prev = cur;
+            cur = cur->next;
+            count--;
+        }
+        prev-> next = cur-> next;
+        return head;
+        
+    }
+};
+
+3. Delete Node in a Linked List
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        
+        node->val=node->next->val;
+        node->next=node->next->next;
+     
+    }
+};
+
+4. Reverse Linked List
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL){
+            return head;
+        }
+        
+        ListNode* temp=head;
+        head=head->next;
+        temp->next=NULL;
+        while(head!=NULL){
+            ListNode* node=head;
+            head=head->next;
+            node->next=temp;
+            temp=node;
+        }
+        
+        return temp;
+    }
+};
+
+5. Merge Two Sorted Lists
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+       
+	   
+        if(list1 == NULL)
+            return list2;
+		
+		
+        if(list2 == NULL)
+            return list1;
+        
+        ListNode * ptr = list1;
+        if(list1 -> val > list2 -> val)
+        {
+            ptr = list2;
+            list2 = list2 -> next;
+        }
+        else
+        {
+            list1 = list1 -> next;
+        }
+        ListNode *curr = ptr;
+        
+		
+        while(list1 &&  list2)
+        {
+            if(list1 -> val < list2 -> val){
+                curr->next = list1;
+                list1 = list1 -> next;
+            }
+            else{
+                curr->next = list2;
+                list2 = list2 -> next;
+            }
+            curr = curr -> next;
+                
+        }
+		
+	
+        if(!list1)
+            curr -> next = list2;
+        else
+            curr -> next = list1;
+            
+        return ptr;
+       
+    }
+};
+
+6. Palindrome Linked List
+class Solution {
+private:
+    ListNode *rev(ListNode *root)
+    {
+        ListNode *prev=NULL,*next,*curr=root;
+        while(curr)
+        {
+            next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        return prev;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode *temp=head,*mid=NULL;
+        if(!head->next)
+            return true;
+        int c=0;
+        while(temp)
+        {
+            c++;
+            temp=temp->next;
+        }
+        int x=c/2;
+        temp=head;
+        while(x>1)
+        {
+            temp=temp->next;
+            x--;
+        }
+        ListNode *first=head,*second;
+        if(c%2==0)
+        {
+             second=temp->next;
+             temp->next=NULL;
+        }
+           
+        else
+        {
+             second=temp->next->next;
+            mid=temp->next;
+             temp->next=NULL;
+        }
+       
+        first=rev(first);
+        int flag=0;
+        ListNode *f=first,*s=second;
+        while(f&&s)
+        {
+            if(f->val!=s->val)
+            {
+                flag=1;
+                break;
+            }
+            f=f->next;
+            s=s->next;
+        }
+        if(f||s)
+        {
+            flag=1;
+        }
+        first=rev(first);
+        head=first;
+        if(mid)
+        {
+            temp->next=mid;
+        }
+        else
+        {
+            temp->next=second;
+        }
+        return !flag;
+    }
+};
+
+ 7. Linked List Cycle
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+	
+		
+        if(head == NULL)
+            return false;
+        
+        ListNode *fast = head;
+        ListNode *slow = head;
+        
+		
+        while(fast != NULL && fast ->next != NULL)
+        {
+            fast = fast->next->next;
+            slow = slow->next;
+            
+			
+			
+            if(fast == slow)
+                return true;
+        }
+        
+		
+        return false;
+    }
+};
+
+8. Remove Duplicates from Sorted List
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        set<int> s;
+        if(head == NULL || head->next == NULL)
+            return head;
+        s.insert(head->val);
+        ListNode* curr = head;
+        while(curr != NULL && curr->next != NULL){
+            if(!s.count(curr->next->val)){
+                curr = curr->next;
+                s.insert(curr->val);
+            }
+            else {
+                curr->next = curr->next->next;
+            }
+        }
+        return head;
+    }
+};
